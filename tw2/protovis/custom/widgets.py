@@ -116,6 +116,7 @@ class BubbleChart(twp.PVWidget):
     visualization toolkit.
     """
     def prepare(self):
+        # TODO This is weak.. i can't do it this way for a demo
         self.init_js = js(
             """
             var data = %s;
