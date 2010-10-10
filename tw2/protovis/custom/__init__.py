@@ -1,15 +1,6 @@
 """
-This package contains the basic core protovis resources to be
-used by the widgets packaged in the following:
-
-    - tw2.protovis.conventional
-    - tw2.protovis.custom
-    - tw2.protovis.interaction
-    - tw2.protovis.hierarchies
-    - tw2.protovis.networks
-    - tw2.protovis.maps
-    - tw2.protovis.stats
-    - tw2.protovis.art
+A bunch of cool widgets from protovis (under the 'custom' heading in their
+examples page).
 
 Get this source from http://github.com/ralphbean/tw2.protovis.core
 
