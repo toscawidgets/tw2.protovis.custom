@@ -105,3 +105,47 @@ class StreamGraph(twp.PVWidget):
               .layer.add(pv.Area)\
                 .fillStyle(js('pv.ramp("#aad", "#556").by(Math.random)'))\
                 .strokeStyle(js('function() this.fillStyle().alpha(0.5)'))
+
+class BubbleChart(twp.PVWidget):
+    """
+    Bubble charts encode data in the area of circles. Although less
+    perceptually accurate than bar charts, they can pack hundreds of
+    values into a small space. A similar technique is the Dorling
+    cartogram, where circles are positioned according to geography rather
+    than arbitrarily. Here we compare the file sizes of the Flare
+    visualization toolkit.
+    """
+    def prepare(self):
+        self.init_js = js(
+            """
+            var data = %s;
+            var format = pv.Format.number();
+            // TODO -- have to remove this:
+            var data = pv.nodes(pv.flatten(data).leaf(Number).array());
+            data.slice(1).forEach(function(d) {
+              d.nodeName = "flare." + d.nodeValue.keys.join(".");
+              var i = d.nodeName.lastIndexOf(".");
+              d.className = d.nodeName.substring(i + 1);
+              d.packageName = d.nodeName.substring(0, i);
+              d.nodeValue = d.nodeValue.value;
+            });
+            """ % (self.p_data))
+        
+        self.setupRootPanel()
+
+        self.add(pv.Layout.Pack) \
+            .top(-50) \
+            .bottom(-50)\
+            .nodes(js('data')) \
+            .size(js('function(d) d.nodeValue')) \
+            .spacing(0) \
+            .order(None) \
+          .node.add(pv.Dot) \
+            .fillStyle(
+        js('pv.Colors.category20().by(function(d) d.packageName)')) \
+            .strokeStyle(js('function() this.fillStyle().darker()')) \
+            .visible(js('function(d) d.parentNode')) \
+            .title(js('function(d) d.nodeName + ": " + format(d.nodeValue)')) \
+          .anchor("center").add(pv.Label) \
+            .text(
+        js('function(d) d.className.substring(0, Math.sqrt(d.nodeValue) >> 4)'))
