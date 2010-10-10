@@ -61,7 +61,7 @@ class SparkBar(twp.PVWidget):
             var data = %s;
             var n = data.length;
             var w = n,
-                h = %i,
+                h = %i;
             """ % (self.p_data, self.p_height))
        
         self.setupRootPanel()
