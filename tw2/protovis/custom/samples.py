@@ -7,6 +7,8 @@ The demos implemented here are what is displayed in the tw2.devtools
 WidgetBrowser.
 """
 from widgets import (
+    SparkLine,
+    SparkBar,
     StreamGraph,
 )
 from widgets import js
@@ -14,6 +16,18 @@ from tw2.core import JSSymbol
 
 import math
 import random
+
+class DemoSparkLine(SparkLine):
+    p_height = 10
+    p_data = [
+          40, 115, 100, 80, 60, 40, 23, 10, 10, 25, 75, 145,
+          130, 130, 80, 65, 20, 10, 5, 10, 60, 190, 180, 175,
+          120, 50, 35, 20, 10, 15, 30, 60, 105, 105, 105, 80, 65
+    ]
+
+class DemoSparkBar(SparkBar):
+    p_height = 10
+    p_data = [0.2, 0.3, 0.6, 0.1, 0.9, 0.8, 0.23, 0.77, 0.63, 0.43, 0.59, 0.11]
 
 # The following are some data generation functions used by the streamgraph demo
 def waves(n, m):
