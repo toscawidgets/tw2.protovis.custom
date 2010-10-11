@@ -66,11 +66,7 @@ class DemoBubbleChart(BubbleChart):
     p_width = 500
     def prepare(self):
         self.p_data = []
-        f = __import__(name='tw2.protovis.core', fromlist=['core']).__file__
-        f = "/".join(f.split('/')[:-1])
-        f = '.'
-        tups = os.walk(f)
-        for tup in tups:
+        for tup in os.walk('.')
             dir, dirs, files = tup
             for file in files:
                 if (file.endswith('pyc') 
