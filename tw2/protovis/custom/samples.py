@@ -62,8 +62,8 @@ class DemoStreamGraph(StreamGraph):
         super(DemoStreamGraph, self).prepare()
 
 class DemoBubbleChart(BubbleChart):
-    p_height = 500
-    p_width = 500
+    p_height = 750
+    p_width = 750
     def prepare(self):
         self.p_data = []
         for tup in os.walk('.')
