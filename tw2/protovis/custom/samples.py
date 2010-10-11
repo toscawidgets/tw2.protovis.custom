@@ -66,7 +66,7 @@ class DemoBubbleChart(BubbleChart):
     p_width = 750
     def prepare(self):
         self.p_data = []
-        for tup in os.walk('.')
+        for tup in os.walk('.'):
             dir, dirs, files = tup
             for file in files:
                 if (file.endswith('pyc') 
