@@ -116,37 +116,27 @@ class BubbleChart(twp.PVWidget):
     visualization toolkit.
     """
     def prepare(self):
-        # TODO This is weak.. i can't do it this way for a demo
         self.init_js = js(
             """
-            var data = %s;
+            var data = pv.nodes(%s);
             var format = pv.Format.number();
-            // TODO -- have to remove this:
-            var data = pv.nodes(pv.flatten(data).leaf(Number).array());
-            data.slice(1).forEach(function(d) {
-              d.nodeName = "flare." + d.nodeValue.keys.join(".");
-              var i = d.nodeName.lastIndexOf(".");
-              d.className = d.nodeName.substring(i + 1);
-              d.packageName = d.nodeName.substring(0, i);
-              d.nodeValue = d.nodeValue.value;
-            });
             """ % (self.p_data))
         
         self.setupRootPanel()
 
         self.add(pv.Layout.Pack) \
             .top(-50) \
-            .bottom(-50)\
+            .bottom(-50) \
             .nodes(js('data')) \
-            .size(js('function(d) d.nodeValue')) \
+            .size(js('function(d) d.nodeValue.value')) \
             .spacing(0) \
             .order(None) \
           .node.add(pv.Dot) \
             .fillStyle(
-        js('pv.Colors.category20().by(function(d) d.packageName)')) \
+        js('pv.Colors.category20().by(function(d) d.nodeValue.group)')) \
             .strokeStyle(js('function() this.fillStyle().darker()')) \
             .visible(js('function(d) d.parentNode')) \
-            .title(js('function(d) d.nodeName + ": " + format(d.nodeValue)')) \
+            .title(js('function(d) d.nodeValue.name + ": " + format(d.nodeValue.value)')) \
           .anchor("center").add(pv.Label) \
             .text(
-        js('function(d) d.className.substring(0, Math.sqrt(d.nodeValue) >> 4)'))
+        js('function(d) d.nodeValue.text.substring(0, Math.sqrt(d.nodeValue.value/25.0) >> 4)'))
