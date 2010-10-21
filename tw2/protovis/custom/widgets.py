@@ -138,5 +138,4 @@ class BubbleChart(twp.PVWidget):
             .visible(js('function(d) d.parentNode')) \
             .title(js('function(d) d.nodeValue.name + ": " + format(d.nodeValue.value)')) \
           .anchor("center").add(pv.Label) \
-            .text(
-        js('function(d) d.nodeValue.text.substring(0, Math.sqrt(d.nodeValue.value/25.0) >> 4)'))
+            .text(js('function(d) d.nodeValue.text'))

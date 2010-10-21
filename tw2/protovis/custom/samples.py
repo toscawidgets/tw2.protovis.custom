@@ -74,10 +74,12 @@ class DemoBubbleChart(BubbleChart):
                     or file.endswith('.swp')):
                     continue
                 nodename = "%s/%s" % (dir, file)
+                value = int(os.path.getsize(nodename)) + 1
+                clip = int(math.sqrt(value)/50.0) # trim text based on value
                 self.p_data.append({
                     'name' : nodename,
-                    'value' : int(os.path.getsize(nodename)) + 1,
-                    'text' : nodename.split('/')[-1],
+                    'value' : value,
+                    'text' : nodename.split('/')[-1][:clip],
                     'group' : "/".join(nodename.split('/')[:-1]),
                 })
         super(DemoBubbleChart, self).prepare()
