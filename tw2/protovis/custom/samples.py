@@ -57,30 +57,29 @@ def layers(n, m):
     return map(f, range(n))
 
 class DemoStreamGraph(StreamGraph):
-    def prepare(self):
-        self.p_data = layers(20, 400)
-        super(DemoStreamGraph, self).prepare()
+    p_data = layers(20, 400)
+
+def make_bubblechart_data():
+    p_data = []
+    for tup in os.walk('.'):
+        dir, dirs, files = tup
+        for file in files:
+            if (file.endswith('pyc') 
+                or file.endswith('pyo')
+                or file.endswith('.swp')):
+                continue
+            nodename = "%s/%s" % (dir, file)
+            value = int(os.path.getsize(nodename)) + 1
+            clip = int(math.sqrt(value)/50.0) # trim text based on value
+            p_data.append({
+                'name' : nodename,
+                'value' : value,
+                'text' : nodename.split('/')[-1][:clip],
+                'group' : "/".join(nodename.split('/')[:-1]),
+            })
+    return p_data
 
 class DemoBubbleChart(BubbleChart):
     p_height = 750
     p_width = 750
-    def prepare(self):
-        self.p_data = []
-        for tup in os.walk('.'):
-            dir, dirs, files = tup
-            for file in files:
-                if (file.endswith('pyc') 
-                    or file.endswith('pyo')
-                    or file.endswith('.swp')):
-                    continue
-                nodename = "%s/%s" % (dir, file)
-                value = int(os.path.getsize(nodename)) + 1
-                clip = int(math.sqrt(value)/50.0) # trim text based on value
-                self.p_data.append({
-                    'name' : nodename,
-                    'value' : value,
-                    'text' : nodename.split('/')[-1][:clip],
-                    'group' : "/".join(nodename.split('/')[:-1]),
-                })
-        super(DemoBubbleChart, self).prepare()
-
+    p_data = make_bubblechart_data()
