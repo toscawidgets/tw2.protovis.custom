@@ -86,13 +86,14 @@ class StreamGraph(twp.PVWidget):
     def prepare(self):
         self.init_js = js(
             """
-            var n = 20, m = 400;
+            var n = %i, m = %i;
             var data = %s,
                 w = %i,
                 h = %i,
                 x = pv.Scale.linear(0, m - 1).range(0, w),
                 y = pv.Scale.linear(0, 2 * n).range(0, h);
-            """ % (self.p_data, self.p_width, self.p_height))
+            """ % (len(self.p_data), len(self.p_data[0]),
+                   self.p_data, self.p_width, self.p_height))
         
         self.setupRootPanel()
 
