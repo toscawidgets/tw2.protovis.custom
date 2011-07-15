@@ -6,6 +6,8 @@ import tw2.core as twc
 import tw2.protovis.core as twp
 from tw2.protovis.core import pv
 
+import math
+
 class js(twc.JSSymbol):
     def __init__(self, src):
         super(js, self).__init__(src=src)
@@ -55,7 +57,13 @@ class SparkLine(twp.PVWidget):
 
 class SparkBar(twp.PVWidget):
     """ A sparkbar is just like a sparkline, but,... you know. """
+    p_width = 80
+    p_margin = twc.Param("Integer margin between bars.", default=1)
+
     def prepare(self):
+        outer_dw = math.floor(self.p_width / len(self.p_data))
+        inner_dw = outer_dw - self.p_margin
+
         self.init_js = js(
             """
             var data = %s;
@@ -68,8 +76,8 @@ class SparkBar(twp.PVWidget):
 
         self.add(pv.Bar) \
           .data(js('data'))\
-          .width(4)\
-          .left(js('function() 5 * this.index'))\
+          .width(inner_dw)\
+          .left(js('function() %i * this.index' % outer_dw))\
           .height(js('function(d) Math.round(h * d)'))\
           .bottom(0)
 
