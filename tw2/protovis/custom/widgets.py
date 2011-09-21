@@ -61,8 +61,10 @@ class SparkBar(twp.PVWidget):
     p_margin = twc.Param("Integer margin between bars.", default=1)
 
     def prepare(self):
-        outer_dw = math.floor(self.p_width / len(self.p_data))
-        inner_dw = outer_dw - self.p_margin
+        outer_dw, inner_dw = 1, 1
+        if self.p_data:
+            outer_dw = math.floor(self.p_width / len(self.p_data))
+            inner_dw = outer_dw - self.p_margin
 
         self.init_js = js(
             """
